@@ -1,42 +1,55 @@
 // Users route module.
 
-// Initialize express router
-let router = require('express').Router();
-const bodyParser = require('body-parser');
-
-// create application/json parser
-var jsonParser = bodyParser.json()
+import { Router } from "express";
+import bodyParser from "body-parser";
+import {
+  deleteUser,
+  signIn,
+  signUp,
+  updateProfile,
+  updateProfileAvatar,
+  profile,
+  search,
+  checkUser,
+  getChatUsers,
+  getStats,
+  events,
+  getUsersList,
+  confirmation,
+  resendEmail,
+} from "../controllers/UserController.js";
 
 // Require controller modules.
-const userController = require('../controllers/UserController');
-const tokenController = require('../controllers/TokenController');
+import { verifyToken } from "../controllers/TokenController.js";
 
-router.delete('/', jsonParser, tokenController.verify, userController.delete);
+export const userRouter = Router();
+// create application/json parser
+const jsonParser = bodyParser.json();
 
-router.put('/', jsonParser, tokenController.verify, userController.updateProfile);
+userRouter.delete("/", jsonParser, verifyToken, deleteUser);
 
-router.put('/image', jsonParser, tokenController.verify, userController.updateProfileAvatar);
+userRouter.put("/", jsonParser, verifyToken, updateProfile);
 
-router.post('/signin', jsonParser, userController.signIn);
+userRouter.put("/image", jsonParser, verifyToken, updateProfileAvatar);
 
-router.post('/signup', jsonParser, userController.signUp);
+userRouter.post("/signin", jsonParser, signIn);
 
-router.get('/profile', jsonParser, tokenController.verify, userController.profile);
+userRouter.post("/signup", jsonParser, signUp);
 
-router.get('/search', userController.search);
+userRouter.get("/profile", jsonParser, verifyToken, profile);
 
-router.get('/checkuser', tokenController.verify, userController.checkUser);
+userRouter.get("/search", search);
 
-router.get('/userchats', tokenController.verify, userController.getChatUsers);
+userRouter.get("/checkuser", verifyToken, checkUser);
 
-router.get('/stats', userController.getStats);
+userRouter.get("/userchats", verifyToken, getChatUsers);
 
-router.get('/events', tokenController.verify, userController.events);
+userRouter.get("/stats", getStats);
 
-router.get('/list', tokenController.verify, userController.getUsersList);
+userRouter.get("/events", verifyToken, events);
 
-router.get('/confirmation/:emailToken', userController.confirmation);
+userRouter.get("/list", verifyToken, getUsersList);
 
-router.get('/resend/email', userController.resendEmail);
+userRouter.get("/confirmation/:emailToken", confirmation);
 
-module.exports = router;
+userRouter.get("/resend/email", resendEmail);

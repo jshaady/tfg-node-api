@@ -1,91 +1,91 @@
 // UserController.js
 
-const UserService = require('../services/userService');
+import UserService from "../services/userService.js";
 const userService = new UserService();
 
-exports.profile = (req, res) => {
-  tryRequest(userService.getProfile(req), res, data => {
+export const profile = (req, res) => {
+  tryRequest(userService.getProfile(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.delete = (req, res) => {
-  tryRequest(userService.delete(req), res, data => {
-    return res.status(200).json({success: data});
+export const deleteUser = (req, res) => {
+  tryRequest(userService.delete(req), res, (data) => {
+    return res.status(200).json({ success: data });
   });
-}
+};
 
-exports.signIn = (req, res) => {
-  tryRequest(userService.signIn(req), res, data => {
+export const signIn = (req, res) => {
+  tryRequest(userService.signIn(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.signUp = (req, res) => {
-  tryRequest(userService.signUp(req), res, data => {
+export const signUp = (req, res) => {
+  tryRequest(userService.signUp(req), res, (data) => {
     return res.status(201).json({ message: data });
   });
-}
+};
 
-exports.confirmation = (req, res) => {
-  tryRequest(userService.confirmation(req), res, data => {
+export const confirmation = (req, res) => {
+  tryRequest(userService.confirmation(req), res, (data) => {
     return res.redirect(data);
   });
-}
+};
 
-exports.resendEmail = (req, res) => {
-  tryRequest(userService.resendEmail(req), res, data => {
+export const resendEmail = (req, res) => {
+  tryRequest(userService.resendEmail(req), res, (data) => {
     return res.status(201).json({ success: data });
   });
-}
+};
 
-exports.getChatUsers = (req, res) => {
-  tryRequest(userService.getChatUsers(req), res, data => {
+export const getChatUsers = (req, res) => {
+  tryRequest(userService.getChatUsers(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.checkUser = (req, res) => {
-  tryRequest(userService.checkUser(req), res, data => {
+export const checkUser = (req, res) => {
+  tryRequest(userService.checkUser(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.search = (req, res) => {
-  tryRequest(userService.getUser(req), res, data => {
+export const search = (req, res) => {
+  tryRequest(userService.getUser(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.updateProfile = (req, res) => {
-  tryRequest(userService.updateProfile(req), res, data => {
+export const updateProfile = (req, res) => {
+  tryRequest(userService.updateProfile(req), res, (data) => {
     return res.status(200).json({ success: data });
   });
-}
+};
 
-exports.updateProfileAvatar = (req, res) => {
-  tryRequest(userService.updateProfileAvatar(req), res, data => {
+export const updateProfileAvatar = (req, res) => {
+  tryRequest(userService.updateProfileAvatar(req), res, (data) => {
     return res.status(200).json({ success: data });
   });
-}
+};
 
-exports.getUsersList = (req, res) => {
-  tryRequest(userService.getUsersList(req), res, data => {
+export const getUsersList = (req, res) => {
+  tryRequest(userService.getUsersList(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.getStats = (req, res) => {
-  tryRequest(userService.getStats(req), res, data => {
+export const getStats = (req, res) => {
+  tryRequest(userService.getStats(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
-exports.events = (req, res) => {
-  tryRequest(userService.events(req), res, data => {
+export const events = (req, res) => {
+  tryRequest(userService.events(req), res, (data) => {
     return res.status(200).json(data);
   });
-}
+};
 
 /**
  * execute the request, data returned or capture the exception throwed by the service
@@ -106,15 +106,17 @@ async function tryRequest(req, res, callback) {
  */
 function toStatusCode(e, res) {
   switch (e.constructor.name) {
-    case 'BadRequestException':
+    case "BadRequestException":
       return res.status(400).json({ error: e.getMessage() });
-    case 'UnauthorizedRequestException':
+    case "UnauthorizedRequestException":
       return res.status(401).json({ error: e.getMessage() });
-    case 'NotFoundException':
+    case "NotFoundException":
       return res.status(404).json({ error: e.getMessage() });
-    case 'ConflictException':
-      return res.status(409).json({ error: e.getMessage(), errors: e.getArgs() });
-    case 'InternalErrorException':
+    case "ConflictException":
+      return res
+        .status(409)
+        .json({ error: e.getMessage(), errors: e.getArgs() });
+    case "InternalErrorException":
       return res.status(500).json({ error: e.getMessage() });
   }
 }

@@ -1,14 +1,12 @@
-const Exception = require('./Exception');
+import Exception from "./Exception.js";
 
-class UnauthorizedRequestException extends Exception {
-
-    /**
-     * Constructs Not Found Exception.
-     * @constructor
-     * @param {String} message: Error message
-     */
-    constructor(message) {
-        super(message)
-    }
+export default class UnauthorizedRequestException extends Exception {
+  /**
+   * Constructs Not Found Exception.
+   * @constructor
+   * @param {String} message: Error message
+   */
+  constructor(message) {
+    super(message);
+  }
 }
-module.exports = UnauthorizedRequestException;

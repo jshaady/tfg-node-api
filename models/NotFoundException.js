@@ -1,14 +1,12 @@
-const Exception = require('./Exception');
+import Exception from "./Exception.js";
 
-class NotFoundException extends Exception {
-
-    /**
-     * Constructs Not Found Exception.
-     * @constructor
-     * @param {String} message: Error message
-     */
-    constructor(message) {
-        super(message)
-    }
+export default class NotFoundException extends Exception {
+  /**
+   * Constructs Not Found Exception.
+   * @constructor
+   * @param {String} message: Error message
+   */
+  constructor(message) {
+    super(message);
+  }
 }
-module.exports = NotFoundException;

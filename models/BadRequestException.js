@@ -1,14 +1,12 @@
-const Exception = require('./Exception');
+import Exception from "./Exception.js";
 
-class BadRequestException extends Exception {
-
-    /**
-     * Constructs Bad Request Exception.
-     * @constructor
-     * @param {String} message: Error message
-     */
-    constructor(message) {
-        super(message)
-    }
+export default class BadRequestException extends Exception {
+  /**
+   * Constructs Bad Request Exception.
+   * @constructor
+   * @param {String} message: Error message
+   */
+  constructor(message) {
+    super(message);
+  }
 }
-module.exports = BadRequestException;

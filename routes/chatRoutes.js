@@ -1,13 +1,12 @@
 // Chat route module.
 
-// Initialize express router
-let router = require('express').Router();
-
+import { Router } from "express";
 // Require controller modules.
-const chatController = require('../controllers/ChatController');
-const tokenController = require('../controllers/TokenController');
+import { getMessages } from "../controllers/ChatController.js";
+import { verifyToken } from "../controllers/TokenController.js";
+
+// Initialize express router
+export const chatRouter = Router();
 
 // Get Messages for a specific user
-router.get('/', tokenController.verify, chatController.getMessages);
-
-module.exports = router;
+chatRouter.get("/", verifyToken, getMessages);

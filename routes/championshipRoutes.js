@@ -1,48 +1,76 @@
 // Championship route module.
 
+import { Router } from "express";
+import bodyParser from "body-parser";
+import { verifyToken } from "../controllers/TokenController.js";
+
 // Initialize express router
-let router = require('express').Router();
-const bodyParser = require('body-parser');
+export const championshipRouter = Router();
 
 // create application/json parser
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
 // Require controller modules.
-const tokenController = require('../controllers/TokenController');
-const championshipController = require('../controllers/ChampionshipController');
+import {
+  createChampionship,
+  getChampionship,
+  join,
+  left,
+  participate,
+  getMatches,
+  getBracketsMatches,
+  generateMatches,
+  clasification,
+  setResult,
+  getMatchDates,
+  addDate,
+  deleteDate,
+  acceptDate,
+  generateNextPhase,
+  getAllChampionships,
+  getUserNextMatches,
+} from "../controllers/ChampionshipController.js";
 
-router.post('/', jsonParser, tokenController.verify, championshipController.createChampionship);
+championshipRouter.post("/", jsonParser, verifyToken, createChampionship);
 
-router.get('/', championshipController.getChampionship);
+championshipRouter.get("/", getChampionship);
 
-router.get('/all', championshipController.getAllChampionships);
+championshipRouter.get("/all", getAllChampionships);
 
-router.post('/join', jsonParser, tokenController.verify, championshipController.join);
+championshipRouter.post("/join", jsonParser, verifyToken, join);
 
-router.delete('/left', jsonParser, tokenController.verify, championshipController.left);
+championshipRouter.delete("/left", jsonParser, verifyToken, left);
 
-router.post('/generate/matches', jsonParser, tokenController.verify, championshipController.generateMatches);
+championshipRouter.post(
+  "/generate/matches",
+  jsonParser,
+  verifyToken,
+  generateMatches
+);
 
-router.post('/generate/next/phase', jsonParser, tokenController.verify, championshipController.generateNextPhase);
+championshipRouter.post(
+  "/generate/next/phase",
+  jsonParser,
+  verifyToken,
+  generateNextPhase
+);
 
-router.put('/set/result', jsonParser, tokenController.verify, championshipController.setResult);
+championshipRouter.put("/set/result", jsonParser, verifyToken, setResult);
 
-router.post('/add/date', jsonParser, tokenController.verify, championshipController.addDate);
+championshipRouter.post("/add/date", jsonParser, verifyToken, addDate);
 
-router.delete('/delete/date', jsonParser, tokenController.verify, championshipController.deleteDate);
+championshipRouter.delete("/delete/date", jsonParser, verifyToken, deleteDate);
 
-router.put('/accept/date', jsonParser, tokenController.verify, championshipController.acceptDate);
+championshipRouter.put("/accept/date", jsonParser, verifyToken, acceptDate);
 
-router.get('/match/dates', jsonParser, tokenController.verify, championshipController.getMatchDates)
+championshipRouter.get("/match/dates", jsonParser, verifyToken, getMatchDates);
 
-router.get('/participate', tokenController.verify, championshipController.participate);
+championshipRouter.get("/participate", verifyToken, participate);
 
-router.get('/clasification', championshipController.clasification);
+championshipRouter.get("/clasification", clasification);
 
-router.get('/matches', championshipController.getMatches);
+championshipRouter.get("/matches", getMatches);
 
-router.get('/brackets/matches', championshipController.getBracketsMatches);
+championshipRouter.get("/brackets/matches", getBracketsMatches);
 
-router.get('/user/next/matches', tokenController.verify, championshipController.getUserNextMatches);
-
-module.exports = router;
+championshipRouter.get("/user/next/matches", verifyToken, getUserNextMatches);

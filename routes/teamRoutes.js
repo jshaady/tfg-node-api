@@ -1,38 +1,48 @@
 // Teams route module.
+import { Router } from "express";
+import bodyParser from "body-parser";
+import {
+  createTeam,
+  editTeam,
+  editTeamImage,
+  getTeam,
+  getAllMyTeams,
+  getMyTeamsCreatedNames,
+  searchByUuid,
+  getTeamUuid,
+  search,
+  join,
+  left,
+  stats,
+} from "../controllers/TeamController.js";
+import { verifyToken } from "../controllers/TokenController.js";
 
 // Initialize express router
-let router = require('express').Router();
-const bodyParser = require('body-parser');
+export const teamRouter = Router();
 
 // create application/json parser
 var jsonParser = bodyParser.json();
 
-// Require controller modules.
-const teamController = require('../controllers/TeamController');
-const tokenController = require('../controllers/TokenController');
+teamRouter.post("/", jsonParser, verifyToken, createTeam);
 
-router.post('/', jsonParser, tokenController.verify, teamController.createTeam);
+teamRouter.put("/", jsonParser, verifyToken, editTeam);
 
-router.put('/', jsonParser, tokenController.verify, teamController.editTeam);
+teamRouter.get("/", getTeam);
 
-router.get('/', teamController.getTeam);
+teamRouter.put("/image", jsonParser, verifyToken, editTeamImage);
 
-router.put('/image', jsonParser, tokenController.verify, teamController.editTeamImage);
+teamRouter.get("/search/uuid", jsonParser, verifyToken, searchByUuid);
 
-router.get('/search/uuid', jsonParser, tokenController.verify, teamController.searchByUuid);
+teamRouter.get("/search", jsonParser, verifyToken, search);
 
-router.get('/search', jsonParser, tokenController.verify, teamController.search);
+teamRouter.get("/stats", jsonParser, stats);
 
-router.get('/stats', jsonParser, teamController.stats);
+teamRouter.post("/join", jsonParser, verifyToken, join);
 
-router.post('/join', jsonParser, tokenController.verify, teamController.join);
+teamRouter.delete("/left", jsonParser, verifyToken, left);
 
-router.delete('/left', jsonParser, tokenController.verify, teamController.left);
+teamRouter.get("/uuid", jsonParser, verifyToken, getTeamUuid);
 
-router.get('/uuid', jsonParser, tokenController.verify, teamController.getTeamUuid)
+teamRouter.get("/joined", verifyToken, jsonParser, getAllMyTeams);
 
-router.get('/joined', tokenController.verify, jsonParser, teamController.getAllMyTeams);
-
-router.get('/created', tokenController.verify, teamController.getMyTeamsCreatedNames);
-
-module.exports = router;
+teamRouter.get("/created", verifyToken, getMyTeamsCreatedNames);

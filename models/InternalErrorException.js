@@ -1,14 +1,12 @@
-const Exception = require('./Exception');
+import Exception from "./Exception.js";
 
-class InternalErrorException extends Exception {
-
-    /**
-     * Constructs Internal Error Exception.
-     * @constructor
-     * @param {String} message: Error message
-     */
-    constructor(message) {
-        super(message)
-    }
+export default class InternalErrorException extends Exception {
+  /**
+   * Constructs Internal Error Exception.
+   * @constructor
+   * @param {String} message: Error message
+   */
+  constructor(message) {
+    super(message);
+  }
 }
-module.exports = InternalErrorException;

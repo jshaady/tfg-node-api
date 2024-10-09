@@ -1,18 +1,18 @@
 // News route module.
 
+import { Router } from "express";
+import bodyParser from "body-parser";
+import { verifyToken } from "../controllers/TokenController.js";
+import { getNews, createNews } from "../controllers/NewsController.js";
+
 // Initialize express router
-let router = require('express').Router();
-const bodyParser = require('body-parser');
+export const newsRouter = Router();
 
 // create application/json parser
-var jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json();
 
 // Require controller modules.
-const tokenController = require('../controllers/TokenController');
-const newsController = require('../controllers/NewsController');
 
-router.post('/', tokenController.verify, newsController.createNews);
+newsRouter.post("/", verifyToken, createNews);
 
-router.get('/', tokenController.verify, jsonParser, newsController.getNews);
-
-module.exports = router;
+newsRouter.get("/", verifyToken, jsonParser, getNews);

@@ -1,24 +1,30 @@
 // Meet route module.
 
+import { Router } from "express";
+import bodyParser from "body-parser";
+import { verifyToken } from "../controllers/TokenController.js";
+import {
+  createMeet,
+  getMeet,
+  getMeets,
+  joinMeet,
+  leftMeet,
+} from "../controllers/MeetController.js";
+
 // Initialize express router
-let router = require('express').Router();
-const bodyParser = require('body-parser');
+export const meetRouter = Router();
 
 // create application/json parser
-var jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json();
 
 // Require controller modules.
-const tokenController = require('../controllers/TokenController');
-const meetController = require('../controllers/MeetController');
 
-router.post('/', jsonParser, tokenController.verify, meetController.createMeet);
+meetRouter.post("/", jsonParser, verifyToken, createMeet);
 
-router.get('/', jsonParser, meetController.getMeet);
+meetRouter.get("/", jsonParser, getMeet);
 
-router.post('/join', jsonParser, tokenController.verify, meetController.joinMeet);
+meetRouter.post("/join", jsonParser, verifyToken, joinMeet);
 
-router.delete('/left', jsonParser, tokenController.verify, meetController.leftMeet);
+meetRouter.delete("/left", jsonParser, verifyToken, leftMeet);
 
-router.get('/list', meetController.getMeets);
-
-module.exports = router;
+meetRouter.get("/list", getMeets);
